@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<title>Análise de Alunos Neurodivergentes</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap');
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #0f111f;
+    color: #E0E0E0;
+    padding: 20px;
+    line-height: 1.6;
+}
+
+h1, h3, p {
+    margin: 0;
+}
+
+.container {
+    max-width: 1400px;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+.header {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding-bottom: 15px;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.title {
+    font-size: 36px;
+    font-weight: 700;
+    color: #fff;
+}
+
+.subtitle {
+    font-size: 16px;
+    color: #8a9bb8;
+}
+
+.kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+}
+
+.kpi-card {
+    border-radius: 16px;
+    padding: 32px;
+    text-align: center;
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.4);
+    color: #fff;
+    position: relative;
+    overflow: hidden;
+    transition: 0.4s all ease;
+    background-clip: padding-box;
+}
+
+.kpi-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 18px 45px rgba(0, 0, 0, 0.5);
+}
+
+.kpi-card h3 {
+    font-size: 15px;
+    font-weight: 500;
+    color: #c0c8d6;
+    margin-bottom: 12px;
+}
+
+.kpi-card p {
+    font-size: 46px;
+    font-weight: 700;
+    transition: 0.6s ease;
+}
+
+.kpi-card.blue {
+    background: linear-gradient(135deg, #4c8fe2, #0072FF);
+}
+
+.kpi-card.green {
+    background: linear-gradient(135deg, #38A169, #48bb78);
+}
+
+.kpi-card.purple {
+    background: linear-gradient(135deg, #805AD5, #9F7AEA);
+}
+
+.main-section {
+    display: grid;
+    grid-template-columns: 3fr 2fr;
+    gap: 30px;
+}
+
+.chart-container {
+    background-color: #161b33;
+    padding: 32px;
+    border-radius: 16px;
+    min-height: 500px;
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.4);
+}
+
+.table-section {
+    background-color: #161b33;
+    padding: 25px;
+    border-radius: 16px;
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.4);
+}
+
+.table-section h3 {
+    color: #fff;
+    font-size: 18px;
+    margin-bottom: 20px;
+    font-weight: 500;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+}
+
+table th, table td {
+    padding: 12px 10px;
+    border-bottom: 1px solid #2c3a67;
+}
+
+table th {
+    color: #a0aec0;
+    font-weight: 500;
+    text-transform: uppercase;
+}
+
+table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+.progress-bar-container {
+    background-color: #2c3a67;
+    height: 10px;
+    width: 80px;
+    border-radius: 5px;
+    overflow: hidden;
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: 8px;
+}
+
+.progress-bar {
+    height: 100%;
+    background-color: #4c8fe2;
+    border-radius: 5px;
+    transition: width 0.8s ease;
+}
+
+.percentage-text {
+    font-size: 13px;
+    color: #E0E0E0;
+    vertical-align: middle;
+}
+
+@media (max-width: 1000px) {
+    .main-section {
+        grid-template-columns: 1fr;
+    }
+    .chart-container {
+        min-height: 400px;
+    }
+}
+
+@media (max-width: 600px) {
+    .title {
+        font-size: 28px;
+    }
+    .subtitle {
+        font-size: 14px;
+    }
+    .kpi-card p {
+        font-size: 36px;
+    }
+    .chart-container {
+        padding: 20px;
+        min-height: 350px;
+    }
+    .table-section {
+        padding: 15px;
+    }
+    table th, table td {
+        font-size: 12px;
+        padding: 8px;
+    }
+}
+</style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <h1 class="title">ANÁLISE DE ALUNOS NEURODIVERGENTES NA ESCOLA</h1>
+        <p class="subtitle">Distribuição de alunos com Transtorno do Espectro Neurodivergente por ano escolar</p>
+    </div>
+
+    <div class="kpi-grid">
+        <div class="kpi-card blue">
+            <h3>Total Neurodivergentes</h3>
+            <p id="total-tand"></p>
+        </div>
+        <div class="kpi-card green">
+            <h3>Total de Alunos</h3>
+            <p id="total-alunos"></p>
+        </div>
+        <div class="kpi-card purple">
+            <h3>% Neurodivergentes</h3>
+            <p id="pct-tand"></p>
+        </div>
+    </div>
+
+    <div class="main-section">
+        <div class="chart-container">
+            <canvas id="myChart"></canvas>
+        </div>
+
+        <div class="table-section">
+            <h3>Tabela Resumo</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Ano</th>
+                        <th style="text-align:center;">Total</th>
+                        <th style="text-align:center;">TAND</th>
+                        <th>% TAND</th>
+                    </tr>
+                </thead>
+                <tbody id="table-body"></tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<script>
+const df = [
+    { Ano:"Infantil IV", Total:21, TAND:6 },
+    { Ano:"Infantil V", Total:26, TAND:11 },
+    { Ano:"1º Ano", Total:23, TAND:6 },
+    { Ano:"2º Ano", Total:25, TAND:6 },
+    { Ano:"3º Ano", Total:28, TAND:1 },
+    { Ano:"4º Ano", Total:29, TAND:3 },
+    { Ano:"5º Ano", Total:30, TAND:1 },
+    { Ano:"6º Ano", Total:21, TAND:2 },
+    { Ano:"7º Ano", Total:27, TAND:0 },
+    { Ano:"8º Ano", Total:20, TAND:1 },
+    { Ano:"9º Ano", Total:23, TAND:1 },
+    { Ano:"3º E.M", Total:20, TAND:1 }
+];
+
+let totalTAND = 0, totalAlunos = 0;
+const tableBody = document.getElementById('table-body');
+
+df.forEach(row => {
+    totalTAND += row.TAND;
+    totalAlunos += row.Total;
+    const pctTAND = ((row.TAND / row.Total) * 100).toFixed(1);
+
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+        <td>${row.Ano}</td>
+        <td style="text-align:center;">${row.Total}</td>
+        <td style="text-align:center;">${row.TAND}</td>
+        <td>
+            <div class="progress-bar-container">
+                <div class="progress-bar" style="width:0%"></div>
+            </div>
+            <span class="percentage-text">${pctTAND}%</span>
+        </td>`;
+    tableBody.appendChild(tr);
+
+    const progressBar = tr.querySelector('.progress-bar');
+    let width = 0;
+    const interval = setInterval(() => {
+        if (width >= pctTAND) clearInterval(interval);
+        progressBar.style.width = width + '%';
+        width += 1;
+    }, 10);
+});
+
+document.getElementById('total-tand').innerText = totalTAND;
+document.getElementById('total-alunos').innerText = totalAlunos;
+document.getElementById('pct-tand').innerText = ((totalTAND / totalAlunos) * 100).toFixed(1) + '%';
+
+const ctx = document.getElementById('myChart').getContext('2d');
+
+const barColors = df.map((_, i) => {
+    const colors = ['#0072FF', '#00BFFF', '#1E90FF', '#4c8fe2', '#2c6dcf', '#3A85FF'];
+    return colors[i % colors.length];
+});
+
+const lineGradient = ctx.createLinearGradient(0, 0, 0, 400);
+lineGradient.addColorStop(0, 'rgba(255,191,0,0.8)');
+lineGradient.addColorStop(1, 'rgba(255,191,0,0.2)');
+
+new Chart(ctx, {
+    type: 'bar',
+    data: {
+        labels: df.map(d => d.Ano),
+        datasets: [
+            {
+                type: 'bar',
+                label: 'Total de Alunos',
+                data: df.map(d => d.Total),
+                backgroundColor: barColors,
+                borderRadius: 12,
+                barThickness: 40,
+                maxBarThickness: 50,
+                yAxisID: 'y',
+                borderSkipped: false,
+                borderWidth: 0
+            },
+            {
+                type: 'line',
+                label: 'T.A.N.D.',
+                data: df.map(d => d.TAND),
+                borderColor: '#FFBF00',
+                backgroundColor: lineGradient,
+                borderWidth: 4,
+                tension: 0.35,
+                pointBackgroundColor: '#FFBF00',
+                pointBorderColor: '#fff',
+                pointBorderWidth: 3,
+                pointRadius: 8,
+                pointHoverRadius: 12,
+                yAxisID: 'y1',
+                fill: true
+            }
+        ]
+    },
+    options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        animation: { duration: 1200, easing: 'easeOutQuart' },
+        interaction: { mode: 'index', intersect: false },
+        plugins: {
+            legend: { labels: { color: '#E0E0E0', font: { weight: '500', size: 14 } } },
+            tooltip: {
+                backgroundColor: '#0f111f',
+                titleColor: '#fff',
+                bodyColor: '#E0E0E0',
+                borderColor: '#0072FF',
+                borderWidth: 1,
+                bodyFont: { weight: '500' }
+            }
+        },
+        scales: {
+            x: { grid: { display: false }, ticks: { color: '#92a4b8', font: { weight: '500' } } },
+            y: { type: 'linear', display: true, position: 'left', title: { display: true, text: 'Quantidade (Total de Alunos)', color: '#92a4b8', font: { weight: '500' } }, grid: { color: '#2a2f4a' }, ticks: { color: '#92a4b8' } },
+            y1: { type: 'linear', display: true, position: 'right', title: { display: true, text: 'Quantidade (T.A.N.D.)', color: '#92a4b8', font: { weight: '500' } }, grid: { display: false }, ticks: { color: '#92a4b8' } }
+        }
+    }
+});
+</script>
+</body>
+</html>
