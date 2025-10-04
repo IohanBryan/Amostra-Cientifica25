@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Maquete Virtual - Inclusão 3D</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+  <style>
+:root {
+  --primary: #0072ff;
+  --secondary: #004d99;
+  --text: #2c3e50;
+  --text-light: #555;
+  --bg: #f7f9fc;
+  --card-bg: #fff;
+  --shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+  --shadow-hover: 0 10px 30px rgba(0, 0, 0, 0.12);
+  --radius: 12px;
+}
+
+body {
+  font-family: 'Poppins', sans-serif;
+  margin: 0;
+  background-color: var(--bg);
+  color: var(--text);
+  scroll-behavior: smooth;
+  transition: background-color 0.3s, color 0.3s;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* Header e Menu */
+header {
+  background-color: var(--card-bg);
+  box-shadow: var(--shadow);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  transition: background 0.3s;
+}
+
+header .container {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 15px 20px;
+}
+
+.header-toggles {
+  display: flex;
+  align-items: center;
+  z-index: 101;
+}
+
+header .logo {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: var(--primary);
+  text-decoration: none;
+  transition: transform 0.3s, color 0.3s;
+  z-index: 102;
+}
+
+header .logo:hover {
+  transform: scale(1.05);
+}
+
+nav {
+  display: flex;
+  align-items: center;
+  background: none;
+  transition: color 0.3s, background 0.3s;
+}
+
+nav a {
+  margin-left: 25px;
+  text-decoration: none;
+  color: var(--text);
+  font-weight: 500;
+  position: relative;
+  transition: color 0.3s;
+}
+
+/* Traço só no hover */
+nav a::after {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 2px;
+  bottom: -3px;
+  left: 0;
+  background-color: var(--primary);
+  transition: width 0.3s;
+}
+
+nav a:hover::after {
+  width: 100%;
+}
+
+nav a:hover {
+  color: var(--primary);
+}
+
+/* Botão de tema */
+.theme-toggle {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1.4rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.3s;
+  margin-right: 15px;
+}
+
+.theme-toggle:hover {
+  transform: scale(1.2);
+}
+
+.icon-sun,
+.icon-moon {
+  transition: opacity 0.3s, transform 0.3s;
+  cursor: pointer;
+}
+
+.icon-sun {
+  display: inline;
+}
+
+.icon-moon {
+  display: none;
+}
+
+/* Botão hamburguer / nav toggle */
+.nav-toggle {
+  display: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 28px;
+  height: 22px;
+  padding: 0;
+}
+
+.nav-toggle span {
+  display: block;
+  height: 3px;
+  width: 100%;
+  background-color: var(--text);
+  border-radius: 2px;
+  transition: all 0.3s ease;
+}
+
+body.dark-theme .nav-toggle span {
+  background-color: #f0f0f0;
+}
+
+/* Main */
+main {
+  padding-top: 70px;
+  flex-grow: 1; 
+}
+
+.carousel-section {
+  padding: 80px 20px;
+  background: linear-gradient(180deg, #e6f0ff 0%, #f7f9fc 100%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.carousel-title {
+  text-align: center;
+  margin-bottom: 50px;
+  font-size: 2.8rem;
+  font-weight: 700;
+  background: linear-gradient(90deg, #0072ff, #00c6ff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.1);
+}
+
+.carousel-container {
+  max-width: 1000px;
+  margin: 0 auto;
+  overflow: hidden;
+  position: relative;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-hover);
+  height: 600px;
+  background-color: var(--card-bg);
+  transition: transform 0.3s;
+}
+
+.carousel-container:hover {
+  transform: translateY(-5px);
+}
+
+.carousel {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.carousel img {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  object-fit: cover;
+  transition: opacity 1.5s ease-in-out, transform 1.2s ease;
+  border-radius: var(--radius);
+}
+
+.carousel img.active {
+  opacity: 1;
+  position: relative;
+  transform: scale(1);
+}
+
+.carousel img:hover {
+  transform: scale(1.05);
+}
+
+/* Footer */
+.site-footer {
+  background-color: var(--secondary);
+  text-align: center;
+  padding: 20px;
+  color: #fff;
+  font-size: 0.9rem;
+  transition: background 0.3s;
+}
+
+.site-footer a {
+  color: #fff;
+  text-decoration: none;
+}
+
+/* Tema escuro */
+body.dark-theme {
+  background-color: #1e1e1e;
+  color: #f0f0f0;
+}
+
+body.dark-theme header {
+  background-color: #222;
+}
+
+body.dark-theme nav a {
+  color: #f0f0f0;
+}
+
+body.dark-theme nav a:hover {
+  color: #00c6ff;
+}
+
+body.dark-theme .carousel-section {
+  background: linear-gradient(180deg, #333 0%, #1e1e1e 100%);
+}
+
+body.dark-theme .site-footer {
+  background-color: #111;
+}
+
+/* RESPONSIVIDADE OTIMIZADA (Menu Hambúrguer) */
+@media (max-width: 768px) {
+  nav {
+    display: none;
+    position: absolute;
+    top: 67px;
+    left: 0;
+    width: 100%;
+    flex-direction: column;
+    background-color: var(--card-bg);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+    z-index: 90;
+    padding-bottom: 10px;
+  }
+
+  nav.open {
+    display: flex;
+  }
+
+  nav.open a {
+    width: 100%;
+    text-align: center;
+    padding: 12px 20px;
+    margin: 0;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  }
+
+  nav.open a:last-child {
+    border-bottom: none;
+  }
+
+  body.dark-theme nav.open {
+    background-color: #222;
+  }
+
+  nav a::after {
+    content: none;
+  }
+
+  .nav-toggle {
+    display: flex;
+  }
+
+  .carousel-container {
+    height: 400px;
+  }
+
+  .carousel-title {
+    font-size: 2.2rem;
+  }
+}
+
+@media (max-width: 480px) {
+  header .container {
+    flex-direction: row;
+    gap: 0;
+    padding: 15px;
+  }
+
+  .carousel-container {
+    height: 280px;
+  }
+
+  .carousel-title {
+    font-size: 1.8rem;
+  }
+}
+</style>
+
+</head>
+
+<body>
+  <header>
+    <div class="container">
+      <a href="index.html" class="logo">Inclusão 3D</a>
+
+      <div class="header-toggles">
+        <button class="theme-toggle" aria-label="Alternar tema" onclick="toggleTheme()">
+          <span class="icon-sun">☀️</span>
+          <span class="icon-moon">🌙</span>
+        </button>
+        <button class="nav-toggle" aria-label="Abrir menu" onclick="toggleMenu()">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+
+      <nav aria-label="Menu principal">
+        <a href="index.html#about">Sobre</a>
+        <a href="maquete.html" class="active">Maquete 3D</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="carousel-section" id="maquete-virtual">
+      <h2 class="carousel-title">Visualização da Maquete</h2>
+      <div class="carousel-container">
+        <div class="carousel">
+          <img src="img/Img1.jpeg" alt="Vista geral da sala inclusiva" class="active">
+          <img src="img/Img2.jpeg" alt="Mobiliário adaptado para acessibilidade">
+          <img src="img/Img3.jpeg" alt="Rampas de acesso e piso tátil">
+          <img src="img/Img4.jpeg" alt="Iluminação e design inclusivo">
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <a href="copyright.html">
+      &copy; 2025 Projeto Ambiente Inclusivo Direitos Autorais&nbsp;|&nbsp; Iohan Bryan
+    </a>
+  </footer>
+
+  <script>
+    // Carrossel automático
+    const carousel = document.querySelector('.carousel');
+    if (carousel) {
+      const images = carousel.querySelectorAll('img');
+      let index = 0;
+      setInterval(() => {
+        images[index].classList.remove('active');
+        index = (index + 1) % images.length;
+        images[index].classList.add('active');
+      }, 5000);
+    }
+
+    // Alternar tema
+    function toggleTheme() {
+      document.body.classList.toggle('dark-theme');
+      const sun = document.querySelector('.icon-sun');
+      const moon = document.querySelector('.icon-moon');
+      if (document.body.classList.contains('dark-theme')) {
+        sun.style.display = 'none';
+        moon.style.display = 'inline';
+      } else {
+        sun.style.display = 'inline';
+        moon.style.display = 'none';
+      }
+    }
+
+    // Menu responsivo
+    function toggleMenu() {
+      const nav = document.querySelector('nav');
+      // A classe 'open' é usada para interagir com o CSS mobile
+      nav.classList.toggle('open');
+    }
+  </script>
+</body>
+
+</html>
